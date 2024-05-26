@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-const LoginScreen: React.FC = ({navigation}) => {
+const LoginScreen: React.FC = ({ navigation }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -26,32 +26,28 @@ const LoginScreen: React.FC = ({navigation}) => {
 
   const handleLogin = () => {
     if (validate()) {
+      Alert.alert('Login Successful', 'Welcome back!');
       // Handle login logic here
       console.log('Login successful');
     }
   };
-  const handleHome = () => {
-    navigation.navigate('HomeScreen');
-  };
 
-  const handleUsers = () => {
-    navigation.navigate('UsersListScreen');
-  };
-  const handleTodoList = () => {
-    navigation.navigate('TodoListScreen');
+  const handleNavigation = (screen: string) => {
+    navigation.navigate(screen);
   };
 
   return (
     <View style={styles.container}>
-      <Text>Email:</Text>
+      <Text style={styles.label}>Email:</Text>
       <TextInput
         style={styles.input}
         value={email}
         onChangeText={setEmail}
         placeholder="Enter your email"
         keyboardType="email-address"
+        autoCapitalize="none"
       />
-      <Text>Password:</Text>
+      <Text style={styles.label}>Password:</Text>
       <TextInput
         style={styles.input}
         value={password}
@@ -60,10 +56,14 @@ const LoginScreen: React.FC = ({navigation}) => {
         secureTextEntry
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Home" onPress={handleHome} />
-      <Button title="users" onPress={handleUsers} />
-      <Button title="TodoListScreen" onPress={handleTodoList} />
+      <View style={styles.buttonContainer}>
+        <Button title="Login" onPress={handleLogin} color="#6200EE" />
+      </View>
+      <View style={styles.navigationButtons}>
+        <Button title="Home" onPress={() => handleNavigation('HomeScreen')} />
+        <Button title="Users" onPress={() => handleNavigation('UsersListScreen')} />
+        <Button title="Todo List" onPress={() => handleNavigation('TodoListScreen')} />
+      </View>
     </View>
   );
 };
@@ -73,17 +73,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
+    backgroundColor: '#f8f8f8',
+  },
+  label: {
+    marginBottom: 8,
+    fontSize: 16,
+    color: '#333',
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: '#ccc',
     borderWidth: 1,
+    borderRadius: 4,
     marginBottom: 12,
     paddingLeft: 8,
+    backgroundColor: '#fff',
   },
   error: {
     color: 'red',
     marginBottom: 12,
+  },
+  buttonContainer: {
+    marginVertical: 12,
+  },
+  navigationButtons: {
+    marginTop: 20,
   },
 });
 

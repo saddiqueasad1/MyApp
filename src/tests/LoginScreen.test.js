@@ -29,5 +29,5 @@ test('handles successful login', () => {
   fireEvent.press(getByText('Login'));
 
   expect(queryByText('Invalid email format')).toBeNull();
-  expect(queryByText('Password must be at least 6 characters')).toBeNull();
+  expect(queryByText('Password must be at least 8 characters')).toBeNull();
 });

@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 const DetailsScreen = ({route}) => {
   return (
     <View style={styles.container}>
-      <Text>Details Screen</Text>
+      <Text>Text show hare: </Text>
       <Text>{route.params?.data}</Text>
     </View>
   );

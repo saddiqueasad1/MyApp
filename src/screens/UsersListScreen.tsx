@@ -6,12 +6,14 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import {fetchUsers} from '../services/api';
+import {fetchUsers, User} from '../services/api';
 
-const UsersList = () => {
-  const [users, setUsers] = useState([]);
+interface UsersListScreenProps {}
+
+const UsersListScreen: React.FC<UsersListScreenProps> = () => {
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -19,7 +21,7 @@ const UsersList = () => {
         const data = await fetchUsers();
         setUsers(data);
       } catch (err) {
-        setError(err.message);
+        setError(err);
       } finally {
         setLoading(false);
       }
@@ -35,16 +37,18 @@ const UsersList = () => {
     return <Text style={styles.error}>{error}</Text>;
   }
 
+  const renderItem = ({item}: {item: User}) => (
+    <View style={styles.user}>
+      <Text>{item.name}</Text>
+      <Text>{item.email}</Text>
+    </View>
+  );
+
   return (
     <FlatList
       data={users}
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => (
-        <View style={styles.user}>
-          <Text>{item.name}</Text>
-          <Text>{item.email}</Text>
-        </View>
-      )}
+      renderItem={renderItem}
     />
   );
 };
@@ -62,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UsersList;
+export default UsersListScreen;

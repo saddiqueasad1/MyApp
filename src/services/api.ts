@@ -6,3 +6,9 @@ export const fetchUsers = async () => {
     throw new Error('Failed to fetch users');
   }
 };
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}

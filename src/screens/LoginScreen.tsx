@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen: React.FC = ({navigation}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -30,6 +30,16 @@ const LoginScreen: React.FC = () => {
       console.log('Login successful');
     }
   };
+  const handleHome = () => {
+    navigation.navigate('HomeScreen');
+  };
+
+  const handleUsers = () => {
+    navigation.navigate('UsersListScreen');
+  };
+  const handleTodoList = () => {
+    navigation.navigate('TodoListScreen');
+  };
 
   return (
     <View style={styles.container}>
@@ -51,6 +61,9 @@ const LoginScreen: React.FC = () => {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Login" onPress={handleLogin} />
+      <Button title="Home" onPress={handleHome} />
+      <Button title="users" onPress={handleUsers} />
+      <Button title="TodoListScreen" onPress={handleTodoList} />
     </View>
   );
 };
